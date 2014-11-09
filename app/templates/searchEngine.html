@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<script type="text/javascript">
+	function SearchResults()
+	{
+		if(textBox.value)
+		{
+			xhr = new XMLHttpRequest();
+			xhr.open("GET",'http://127.0.0.1:5000/search?searchString='+encodeURIComponent(textBox.value), true);
+			xhr.send();
+			xhr.onreadystatechange=function()
+			{
+				if (xhr.readyState==4 && xhr.status==200)
+				{
+					alert(xhr.responseText);
+				}
+			} 
+		}
+		else
+			alert("Enter search string");
+	}
+	</script>
+	<body>
+		<input type = "text" id="textBox"/>
+		<input type = "button" value="Search" onclick = "SearchResults()"/>
+	</body>
+</html>
