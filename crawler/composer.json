@@ -1,0 +1,5 @@
+{
+    "require": {
+        "seostats/seostats": "dev-master"
+    }
+}
