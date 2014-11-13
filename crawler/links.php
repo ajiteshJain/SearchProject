@@ -192,6 +192,7 @@ function start_crawl($crawl_count=3) {
 				$i++;
 				continue;
 			}
+			//DIrty way to remove unfit URLs
 			if($crawl_url[0] != 'h' || strpos($crawl_url, '@') || strpos($crawl_url, '#') || strpos($crawl_url, '?')
 				|| strpos($crawl_url, '.pdf') || strpos($crawl_url, '.mov') || strpos($crawl_url, '.MOV') || strpos($crawl_url, '.avi') || strpos($crawl_url, '.AVI')
 				|| strpos($crawl_url, '.ppt') || strpos($crawl_url, '.doc') || strpos($crawl_url, '.wav')
