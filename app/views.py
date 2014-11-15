@@ -1,6 +1,9 @@
 from flask import render_template,request
 from app import app
 import json
+from app import app
+from script.searching import *
+
 
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -24,6 +27,9 @@ def index():
 @app.route('/search')
 def search_main():
 	searchString = request.args.get('searchString','')
+	print "searchString", searchString
+	count = SearchWord(searchString)
 	results = ['www.cc.gatech.edu','www.sify.com','www.google.com']#search(searchString)
+	results.append(count)
 	return json.dumps(results)
 
