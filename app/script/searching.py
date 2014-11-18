@@ -31,9 +31,11 @@ def SearchMultipleWords(query):
 			else:
 				results[row[1]] += float(row[0])
 
-	sortedResults = sorted(results.items(), key=lambda x: x[1], reverse=True)[:10]
-
+	sortedResults = sorted(results.items(), key=lambda x: x[1], reverse=True)
+	res = []
+	for elem in sortedResults:
+		res.append(elem[0])
 	print sortedResults
 
-	return sortedResults
+	return res
 

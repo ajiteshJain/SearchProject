@@ -12,16 +12,34 @@
 			{
 				if (xhr.readyState==4 && xhr.status==200)
 				{
-					alert(xhr.responseText);
+					//alert(xhr.responseText);
+					PrintResults(JSON.parse(xhr.responseText));
 				}
 			} 
 		}
 		else
 			alert("Enter search string");
 	}
+
+	function PrintResults(results)
+	{
+		rootDiv = document.getElementById("results");
+		rootDiv.innerHTML = '';
+		for(var result in results)
+		{
+			//alert(results[result]);
+			aTag = document.createElement("a");
+			aTag.setAttribute('href','http://'+results[result]);
+			aTag.innerHTML = results[result];
+			rootDiv.appendChild(aTag);
+			rootDiv.appendChild(document.createElement("br"));
+			
+		}
+	}
 	</script>
 	<body>
 		<input type = "text" id="textBox"/>
 		<input type = "button" value="Search" onclick = "SearchResults()"/>
+		<div id="results"></div>
 	</body>
 </html>
