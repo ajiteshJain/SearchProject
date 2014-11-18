@@ -18,7 +18,7 @@ try:
 			with open(os.path.join(root, file1), 'r') as f:
 				content = re.split("[^\w'-]+",f.read().replace('\n',' '))
 				c = Counter(content)
-				URL = f.name.replace('!','/')
+				URL = f.name.replace('!','/')[13:]
 				for elem in c:
 					rootWord = stemmer.stem(elem)
 					numRows = cur.execute("SELECT * from WordFrequency WHERE URL=%s AND Word=%s", (URL, rootWord));
