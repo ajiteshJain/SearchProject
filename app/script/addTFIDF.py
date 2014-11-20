@@ -30,6 +30,7 @@ for i in range(cur.rowcount):
 	tf= 0.5 + (0.5*freq)/maxfreq
 	# print "TF",tf
 	# print word
+	//Check this query...not sure we need word frequencies in the whole data set!
 	cur1.execute('SELECT count(*) from WordFrequency where Word="{0}"'.format(word))
 	# print cur1.rowcount
 	row1 = cur1.fetchone()
