@@ -3,7 +3,6 @@ import math
 
 db = MySQLdb.connect(host="localhost", # your host, usually localhost
                      user="root", # your username
-                      passwd="echinodermata", # your password
                       db="cs6422") # name of the data base
 cur = db.cursor()
 cur.execute("SELECT DISTINCT(URL) FROM WordFrequency")

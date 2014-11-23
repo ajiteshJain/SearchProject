@@ -1,12 +1,12 @@
 import MySQLdb
 import math
 from nltk.corpus import stopwords
-
+from collections import Counter
+import operator
 cachedStopWords = stopwords.words("english")
 
 db = MySQLdb.connect(host="localhost", # your host, usually localhost
                      user="root", # your username
-                      passwd="echinodermata", # your password
                       db="cs6422") # name of the data base
 cur = db.cursor()
 
@@ -21,10 +21,40 @@ def GetAllDocuments():
 def GetQueryVector(searchString):
 	#remove stop words
 	query = ' '.join([word for word in searchString.split() if word not in cachedStopWords])
-	
-
+	counts = Counter(query.split())
+	for word in counts:
+		counts[word] = 1 + math.log(counts[word],10)	
+	return counts
 
 def GetSimilarityRanks(searchString):
-	documents = GetAllDocuments();
-	for document in 
+	counts = GetQueryVector(searchString)
+	query = "select URL,Word,Frequency,IDF from WordFrequency WHERE Word IN("+','.join('"'+i+'"' for i in counts)+")"
+	print query
+	numRows = cur.execute(query)
+	documentVectors = {}
+	for i in range(numRows):
+		row = cur.fetchone();
+		if row[0] not in documentVectors:
+			documentVectors[row[0]] = {}
+		documentVectors[row[0]][row[1]] = 1 + math.log(row[2],10)
+		counts[row[1]] = (1 + math.log(counts[row[1]],10)) * float(row[3])
+	query = "select URL,Length from DocumentVectorLength"
+	numRows = cur.execute(query)
+	print documentVectors
+	dotProducts={}
+	for i in range(numRows):
+		dotProduct = 0.0
+		row = cur.fetchone()
+		if row[0] in documentVectors:
+			for word in counts:
+				if word in documentVectors[row[0]]:
+					dotProduct += documentVectors[row[0]][word] * counts[word]
+			dotProducts[row[0]] = dotProduct/row[1];
+	sorted_x = sorted(dotProducts.items(), key=operator.itemgetter(1), reverse=True)
+	result = []
+	for element in sorted_x:
+		result.append(element[0])
+	print result
+	return result
 
+GetSimilarityRanks('ling liu')
