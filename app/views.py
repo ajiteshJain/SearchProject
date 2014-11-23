@@ -28,8 +28,12 @@ def index():
 def search_main():
 	searchString = request.args.get('searchString','')
 	print "searchString", searchString
-	count = SearchWord(searchString)
-	results = ['www.cc.gatech.edu','www.sify.com','www.google.com']#search(searchString)
-	results.append(count)
+	if " " not in searchString:
+		results = SearchWord(searchString)
+	else:
+		results = SearchMultipleWords(searchString)
+
+
+	# results = ['www.cc.gatech.edu','www.sify.com','www.google.com']
 	return json.dumps(results)
 
