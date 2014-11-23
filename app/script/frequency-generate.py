@@ -28,6 +28,9 @@ for row in results:
 	try:
 		url = row[0]
 		filePath = row[1]
+		if ".ps" in url:
+			continue
+			
 		with open(filePath) as fileContent:
 			wordCount = Counter()
 			for line in fileContent:
