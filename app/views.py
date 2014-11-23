@@ -3,7 +3,7 @@ from app import app
 import json
 from app import app
 from script.searching import *
-
+from script.cosineSimilarity import *
 
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -31,7 +31,8 @@ def search_main():
 	if " " not in searchString:
 		results = SearchWord(searchString)
 	else:
-		results = SearchMultipleWordsWithAlexaPageRank(searchString)
+		results = GetSimilarityRanks(searchString)
+		#results = SearchMultipleWordsWithAlexaPageRank(searchString)
 		#results = SearchMultipleWordsWithGooglePageRank(searchString)
 		#results = SearchMultipleWords(searchString)
 
