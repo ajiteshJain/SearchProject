@@ -20,7 +20,7 @@ db2 = MySQLdb.connect(host="127.0.0.1", # your host, usually localhost
                       db="cs6422") # name of the data base
 cur2 = db2.cursor()
 cur = db.cursor() 
-cur.execute("SELECT url,filePath from pagedetails");
+cur.execute("SELECT url,filePath FROM pagedetails WHERE url NOT IN (SELECT DISTINCT(url) FROM `DocumentWordFrequency`)");
 results = cur.fetchall()
 count = 1
 
@@ -30,7 +30,7 @@ for row in results:
 		filePath = row[1]
 		if ".ps" in url:
 			continue
-			
+
 		with open(filePath) as fileContent:
 			wordCount = Counter()
 			for line in fileContent:
@@ -44,22 +44,29 @@ for row in results:
 					else:
 						wordCount += Counter({wnl.lemmatize(lowerWord) : 1})
 
-			query = 'INSERT INTO BetterWordFrequency(url,word,frequency) VALUES '
+			query = 'INSERT INTO DocumentWordFrequency2(url,word,frequency) VALUES '
+			if len(wordCount.items()) == 0:
+				continue
+			
 			for word,freq in wordCount.items():
 				if any(c.isalpha() for c in word):
 					query += "('"+MySQLdb.escape_string(url)+"','"+MySQLdb.escape_string(word)+"',"+str(freq)+"),"
 
-			query = query[0:-1] + " ON DUPLICATE KEY UPDATE frequency = frequency + VALUES(frequency)"
+			query = query[0:-1] 
 			cur2.execute(query)
 			db2.commit()	
+
+	except IOError:
+		e = sys.exc_info()[0]
+		print traceback.format_exc()
 
 	except:
 		e = sys.exc_info()[0]
 		print traceback.format_exc()
+		print "Query is  ",query
+		exit()
 	finally:
 		print "Done ",url, " Count = ",count
 		count = count + 1
-		#cur.close()
-		#cur2.close()
 cur.close()
 cur2.close()
