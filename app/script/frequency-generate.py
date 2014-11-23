@@ -52,7 +52,7 @@ for row in results:
 				if any(c.isalpha() for c in word):
 					query += "('"+MySQLdb.escape_string(url)+"','"+MySQLdb.escape_string(word)+"',"+str(freq)+"),"
 
-			query = query[0:-1] 
+			query = query[0:-1] #+ " ON DUPLICATE KEY UPDATE frequency = frequency + VALUES(frequency)"
 			cur2.execute(query)
 			db2.commit()	
 
