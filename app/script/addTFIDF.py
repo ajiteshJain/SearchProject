@@ -38,7 +38,7 @@ for i in range(cur.rowcount):
 	# print TotalURL, row1[0]
 	temp = (TotalURL+ 0.0)/row1[0]
 	idf = math.log(temp,10)
-	tfidf = tf/idf
+	tfidf = tf*idf
 	# print "IDF",idf, word, idValue
 	cur1.execute("UPDATE WordFrequency SET TF =%s, IDF=%s, TFIDF=%s WHERE ID=%s", (tf, idf,tfidf, idValue))
 	db1.commit()
