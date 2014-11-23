@@ -31,7 +31,8 @@ def search_main():
 	if " " not in searchString:
 		results = SearchWord(searchString)
 	else:
-		results = SearchMultipleWordsWithAlexaPageRank(searchString)
+		results = consineSimWithWordFreq(searchString)
+		#results = SearchMultipleWordsWithAlexaPageRank(searchString)
 		#results = SearchMultipleWordsWithGooglePageRank(searchString)
 		#results = SearchMultipleWords(searchString)
 

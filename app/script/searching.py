@@ -1,5 +1,6 @@
 import MySQLdb
 from nltk.corpus import stopwords
+import collections
 
 cachedStopWords = stopwords.words("english")
 
@@ -105,7 +106,7 @@ def SearchMultipleWordsWithGooglePageRank(query):
 
 	return SortResults(results)
 
-def consineSimWithWordFreq(query):
+#def consineSimWithWordFreq(query):
 	# words = query.split()
 	# db = MySQLdb.connect(user="root", db = "cs6422" )
 	# cur = db.cursor()
@@ -124,7 +125,61 @@ def consineSimWithWordFreq(query):
 
 
 	#
-	print "hi";
+def consineSimWithWordFreq(query):
+
+	db = MySQLdb.connect(user="root", db = "cs6422", passwd="echinodermata")
+	db1 = MySQLdb.connect(user="root", db = "cs6422", passwd="echinodermata" )
+	cur = db.cursor()
+	cur1 = db.cursor()
+	cur.execute("SELECT count(distinct URL) from WordFrequency")
+	row = cur.fetchone()
+	N = int(row[0])
+
+	wordFreq = Counter(test.split()).most_common()
+	wordFreq = sorted(wordFreq,key=itemgetter(1), reverse = True)
+	tfWT = {}
+	idf = {}
+	wt = {}
+	norm = 0
+	results = {}
+	for elem in wordFreq:
+		tfWT[elem[0]] = 1 + math.log(elem[1])
+		cur1.execute("SELECT count(distinct URL) from WordFrequency where Word = '{0}'".format(elem[0]))
+		row1 = cur1.fetchone()
+		idf[elem[0]] = math.log(N/row1[0])
+		wt[elem[0]] = tfWT[elem[0]] * idf[elem[0]]
+		norm += math.pow(wt[elem[0]],2)
+
+	norm = math.sqrt(norm)
+
+	for elem in wt:
+		wt[elem] = wt[elem]/norm
+
+	# wt has the vector for the query now
+
+	URLs = {}
+
+	cur.execute("SELECT distinct url from WordFrequency")
+	for i in range(cur.rowcount):
+		URLs.append(row[0])
+	for url in URLs:
+		norm = 0
+		tf = {}
+		for word in wt:
+			cur1.execute("SELECT Frequency from WordFrequency where URL=%s and Word= %s ", (url, word))
+			row1 = cur1.fetchone()
+			tf[word] = 1 + math.log(row1[0])
+			norm += math.pow(tf[word],2)
+
+		norm = math.sqrt(norm)
+		res = 0
+		for word in wt: 
+			tf[word] /= norm
+			res += tf[word]*wt[elem]
+		results[url] = res
+
+	resultsSorted = sorted(results.items(), key=operator.itemgetter(1), reverse=True)
+	return resultsSorted[:10]
 
 
 
