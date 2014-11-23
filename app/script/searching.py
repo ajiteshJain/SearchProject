@@ -3,8 +3,18 @@ from nltk.corpus import stopwords
 
 cachedStopWords = stopwords.words("english")
 
+def SortResults(results):
+	sortedResults = sorted(results.items(), key=lambda x: x[1], reverse=True)
+	res = []
+	for elem in sortedResults:
+		res.append(elem[0])
+	print res
+	return res
+
+
 def SearchWord(word):
-	db = MySQLdb.connect(host="127.0.0.1",user="root", db = "cs6422" )
+
+	db = MySQLdb.connect(host="127.0.0.1",user="root", db = "cs6422",passwd="echinodermata" )
 	cur = db.cursor()
 
 	cur.execute("SELECT TFIDF, URL from WordFrequency where Word = '{0}' ORDER BY TFIDF LIMIT 10".format(word))
@@ -19,20 +29,19 @@ def SearchWord(word):
 def SearchMultipleWords(query):
 	# summing tf--idf
 	words = query.split()
-	db = MySQLdb.connect(host="127.0.0.1",user="root", db = "cs6422" )
+	db = MySQLdb.connect(host="127.0.0.1",user="root", db = "cs6422",passwd="echinodermata" )
 	cur = db.cursor()
 	results = {}
 	for word in words:
 		cur.execute("SELECT TFIDF, URL from WordFrequency where Word = '{0}'".format(word))
 		for i in range(cur.rowcount):
 			row = cur.fetchone()
-			# print type(row[0])
 			if row[1] not in results:
 				results[row[1]] = 0
-			if (row[0] is None) or (len(row[0]) == 0):
+			if (row[0] is None) or (row[0] == 0):
 				continue
 			else:
-				results[row[1]] += float(row[0])
+				results[row[1]] += row[0]
 
 	sortedResults = sorted(results.items(), key=lambda x: x[1], reverse=True)
 	res = []
@@ -50,7 +59,7 @@ def SearchMultopleWordsRemovingStopWords(query):
 
 def SearchMultipleWordsWithAlexaPageRank(query):
 	words = query.split()
-	db = MySQLdb.connect(user="root", db = "cs6422" )
+	db = MySQLdb.connect(host="127.0.0.1",user="root", db = "cs6422",passwd="echinodermata" )
 	cur = db.cursor()
 	results = {}
 	for word in words:
@@ -59,22 +68,22 @@ def SearchMultipleWordsWithAlexaPageRank(query):
 			row = cur.fetchone()
 			if row[1] not in results:
 				results[row[1]] = 0
-			if (row[0] is None) or (len(row[0]) == 0):
+			if (row[0] is None) or (row[0] == 0):
 				continue
 			else:
-				results[row[1]] += float(row[0])
+				results[row[1]] += row[0]
 
 	for elem in results:
 		cur.execute("SELECT alexaPageRank from pagedetails where url='{0}'".format(elem))
 		for i in range(cur.rowcount):
 			row = cur.fetchone()
-			results[elem] *= int(row[0])
+			results[elem] *= float(row[0])
 
-	return results
+	return SortResults(results)
 
 def SearchMultipleWordsWithGooglePageRank(query):
 	words = query.split()
-	db = MySQLdb.connect(user="root", db = "cs6422" )
+	db = MySQLdb.connect(host="127.0.0.1",user="root", db = "cs6422",passwd="echinodermata" )
 	cur = db.cursor()
 	results = {}
 	for word in words:
@@ -83,10 +92,10 @@ def SearchMultipleWordsWithGooglePageRank(query):
 			row = cur.fetchone()
 			if row[1] not in results:
 				results[row[1]] = 0
-			if (row[0] is None) or (len(row[0]) == 0):
+			if (row[0] is None) or (row[0] == 0):
 				continue
 			else:
-				results[row[1]] += float(row[0])
+				results[row[1]] += row[0]
 
 	for elem in results:
 		cur.execute("SELECT googlePageRank from pagedetails where url='{0}'".format(elem))
@@ -94,7 +103,7 @@ def SearchMultipleWordsWithGooglePageRank(query):
 			row = cur.fetchone()
 			results[elem] *= int(row[0])
 
-	return results
+	return SortResults(results)
 
 def consineSimWithWordFreq(query):
 	# words = query.split()
