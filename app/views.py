@@ -31,12 +31,12 @@ def search_main():
 	if " " not in searchString:
 		results = SearchWord(searchString)
 	else:
-		results = consineSimWithWordFreq(searchString)
+		results = GetSimilarityRanks(searchString)
 		#results = SearchMultipleWordsWithAlexaPageRank(searchString)
 		#results = SearchMultipleWordsWithGooglePageRank(searchString)
 		#results = SearchMultipleWords(searchString)
 
-	print results
+	# print results
 	# results = ['www.cc.gatech.edu','www.sify.com','www.google.com']
 	return json.dumps(results)
 

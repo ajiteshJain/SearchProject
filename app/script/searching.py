@@ -39,10 +39,12 @@ def SearchMultipleWords(query):
 			row = cur.fetchone()
 			if row[1] not in results:
 				results[row[1]] = 0
-			if (row[0] is None) or (row[0] == 0):
-				continue
-			else:
-				results[row[1]] += row[0]
+			results[row[1]] += float(row[0])
+
+	for elem in results:
+		for word in words:
+			if word in elem:
+				results[elem] += 0.25
 
 	sortedResults = sorted(results.items(), key=lambda x: x[1], reverse=True)
 	res = []
