@@ -8,7 +8,6 @@ from nltk.stem.snowball import SnowballStemmer
 
 db = MySQLdb.connect(host="localhost", # your host, usually localhost
                      user="root", # your username
-                      passwd="echinodermata", # your password
                       db="cs6422") # name of the data base
 cur = db.cursor() 
 stemmer = SnowballStemmer("english")
