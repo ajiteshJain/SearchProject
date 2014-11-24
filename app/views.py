@@ -4,6 +4,7 @@ import json
 from app import app
 from script.searching import *
 from script.cosineSimilarity import *
+#from urllib.parse import quote
 
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -31,12 +32,14 @@ def search_main():
 	if " " not in searchString:
 		results = SearchWord(searchString)
 	else:
-		results = consineSimWithWordFreq(searchString)
-		#results = SearchMultipleWordsWithAlexaPageRank(searchString)
+		#results = GetSimilarityRanks(searchString)
+		results = SearchMultipleWordsWithAlexaPageRank(searchString)
 		#results = SearchMultipleWordsWithGooglePageRank(searchString)
 		#results = SearchMultipleWords(searchString)
 
 	print results
 	# results = ['www.cc.gatech.edu','www.sify.com','www.google.com']
+	for i in range(len(results)):
+		results[i] = unicode(results[i], errors='ignore')
 	return json.dumps(results)
 

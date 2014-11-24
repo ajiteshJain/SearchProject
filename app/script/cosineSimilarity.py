@@ -57,4 +57,3 @@ def GetSimilarityRanks(searchString):
 	print result
 	return result
 
-GetSimilarityRanks('ling liu')
