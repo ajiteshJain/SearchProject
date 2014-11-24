@@ -30,7 +30,7 @@ for i in range(cur.rowcount):
 	tf= 0.5 + (0.5*freq)/maxfreq
 	# print "TF",tf
 	# print word
-	//Check this query...not sure we need word frequencies in the whole data set!
+	
 	cur1.execute('SELECT count(*) from WordFrequency where Word="{0}"'.format(word))
 	# print cur1.rowcount
 	row1 = cur1.fetchone()
@@ -38,7 +38,7 @@ for i in range(cur.rowcount):
 	# print TotalURL, row1[0]
 	temp = (TotalURL+ 0.0)/row1[0]
 	idf = math.log(temp,10)
-	tfidf = tf/idf
+	tfidf = tf*idf
 	# print "IDF",idf, word, idValue
 	cur1.execute("UPDATE WordFrequency SET TF =%s, IDF=%s, TFIDF=%s WHERE ID=%s", (tf, idf,tfidf, idValue))
 	db1.commit()

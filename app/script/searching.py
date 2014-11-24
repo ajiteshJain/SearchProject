@@ -9,7 +9,7 @@ def SortResults(results):
 	res = []
 	for elem in sortedResults:
 		res.append(elem[0])
-	print res
+	# print res
 	return res
 
 
@@ -39,18 +39,49 @@ def SearchMultipleWords(query):
 			row = cur.fetchone()
 			if row[1] not in results:
 				results[row[1]] = 0
-			if (row[0] is None) or (row[0] == 0):
-				continue
-			else:
-				results[row[1]] += row[0]
+			results[row[1]] += float(row[0])
+
+	for elem in results:
+		for word in words:
+			if word in elem:
+				results[elem] += 0.25
 
 	sortedResults = sorted(results.items(), key=lambda x: x[1], reverse=True)
 	res = []
 	for elem in sortedResults:
 		res.append(elem[0])
-	print sortedResults
+	# print sortedResults
 
 	return res
+
+def SearchKeywordForExcept(query):
+	# summing tf--idf
+	words = query.split()
+	db = MySQLdb.connect(host="127.0.0.1",user="root", db = "cs6422" )
+	cur = db.cursor()
+	results = {}
+	for word in words:
+		cur.execute("SELECT TFIDF, URL from WordFrequency where Word = '{0}'".format(word))
+		for i in range(cur.rowcount):
+			row = cur.fetchone()
+			if row[1] not in results:
+				results[row[1]] = 0
+			results[row[1]] += float(row[0])
+
+		cur.execute("SELECT TFIDF, URL from WordFrequency where URL LIKE '{0}'".format("%"+word+"%"))
+		for i in range(cur.rowcount):
+			row = cur.fetchone()
+			if row[1] not in results:
+				results[row[1]] = 0
+			results[row[1]] += float(row[0])
+
+
+	for elem in results:
+		for word in words:
+			if word in elem:
+				results[elem] += 0.25
+
+	return results
 
 def SearchMultopleWordsRemovingStopWords(query):
 	# summing tf idf after removing stop words from the query	
