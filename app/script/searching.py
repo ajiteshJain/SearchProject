@@ -41,16 +41,16 @@ def SearchMultipleWords(query):
 				results[row[1]] = 0
 			results[row[1]] += float(row[0])
 
-	for elem in results:
-		for word in words:
-			if word in elem:
-				results[elem] += 0.25
+	#for elem in results:
+	#	for word in words:
+	#		if word in elem:
+	#			results[elem] += 0.25
 
 	sortedResults = sorted(results.items(), key=lambda x: x[1], reverse=True)
 	res = []
 	for elem in sortedResults:
 		res.append(elem[0])
-	# print sortedResults
+	print sortedResults
 
 	return res
 
@@ -76,10 +76,10 @@ def SearchKeywordForExcept(query):
 			results[row[1]] += float(row[0])
 
 
-	for elem in results:
-		for word in words:
-			if word in elem:
-				results[elem] += 0.25
+	#for elem in results:
+	#	for word in words:
+	#		if word in elem:
+	#			results[elem] += 0.25
 
 	return results
 

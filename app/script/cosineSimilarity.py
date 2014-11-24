@@ -28,19 +28,23 @@ def GetQueryVector(searchString):
 
 def GetSimilarityRanks(searchString):
 	counts = GetQueryVector(searchString)
+	print counts
 	query = "select URL,Word,Frequency,IDF from WordFrequency WHERE Word IN("+','.join('"'+i+'"' for i in counts)+")"
-	# print query
+	print query
 	numRows = cur.execute(query)
+	wordChecked = []
 	documentVectors = {}
 	for i in range(numRows):
 		row = cur.fetchone();
 		if row[0] not in documentVectors:
 			documentVectors[row[0]] = {}
 		documentVectors[row[0]][row[1]] = 1 + math.log(row[2],10)
-		counts[row[1]] = (1 + math.log(counts[row[1]],10)) * float(row[3])
+		if row[1] not in wordChecked:
+			counts[row[1]] = counts[row[1]] * float(row[3])
+			wordChecked.append(row[1])
 	query = "select URL,Length from DocumentVectorLength"
 	numRows = cur.execute(query)
-	# print documentVectors
+	print documentVectors
 	dotProducts={}
 	for i in range(numRows):
 		dotProduct = 0.0
@@ -51,9 +55,10 @@ def GetSimilarityRanks(searchString):
 					dotProduct += documentVectors[row[0]][word] * counts[word]
 			dotProducts[row[0]] = dotProduct/row[1];
 	sorted_x = sorted(dotProducts.items(), key=operator.itemgetter(1), reverse=True)
+	print sorted_x
 	result = []
 	for element in sorted_x:
 		result.append(element[0])
-	# print result
+	print result
 	return result
 

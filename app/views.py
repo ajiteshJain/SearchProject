@@ -37,10 +37,10 @@ def search_main():
 		if len(res) != 0:
 			results = res
 		else:
-			# results = GetSimilarityRanks(searchString)
+			results = GetSimilarityRanks(searchString)
 			#results = SearchMultipleWordsWithAlexaPageRank(searchString)
 			#results = SearchMultipleWordsWithGooglePageRank(searchString)
-			results = SearchMultipleWords(searchString)
+			#results = SearchMultipleWords(searchString)
 
 
 	# print results
