@@ -27,10 +27,14 @@
 		rootDiv.innerHTML = '';
 		for(var result in results)
 		{
-			if(parseInt(result) != results.length - 1 && results[(parseInt(result) + 1).toString()]+"/" == results[result])
-			{
+			var prev = "";
+			var next = "";
+			if(result != "0")
+				prev = results[(parseInt(result)-1).toString()];
+			if(result != result.length.toString())
+				next = results[(parseInt(result)+1).toString()];
+			if(prev+"/" == result[results] || next+"/" == result[results] || prev == results[result]+"/" || next == results[result]+"/")
 				continue;
-			}
  
 			aTag = document.createElement("a");
 			aTag.setAttribute('href',results[result]);
