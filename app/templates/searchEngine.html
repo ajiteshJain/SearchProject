@@ -27,7 +27,11 @@
 		rootDiv.innerHTML = '';
 		for(var result in results)
 		{
-			//alert(results[result]);
+			if(parseInt(result) != results.length - 1 && results[(parseInt(result) + 1).toString()]+"/" == results[result])
+			{
+				continue;
+			}
+ 
 			aTag = document.createElement("a");
 			aTag.setAttribute('href',results[result]);
 			aTag.innerHTML = results[result];
@@ -38,7 +42,7 @@
 	}
 	</script>
 	<body>
-		<input type = "text" id="textBox"/>
+		<input type = "text" id="textBox" size="34"/>
 		<input type = "button" value="Search" onclick = "SearchResults()"/>
 		<div id="results"></div>
 	</body>
