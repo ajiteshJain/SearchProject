@@ -1,5 +1,20 @@
 <!DOCTYPE html>
 <html>
+	<style type="text/css">
+	#header{
+		height: 25px;
+	}
+	#sidecolumn {
+	    line-height:30px;
+	    height:2000px;
+	    width:100px;
+	    float:left;
+	    padding:5px; 
+	}
+	a:visited{
+		color: blue;
+	}
+	</style>
 	<script type="text/javascript">
 	function SearchResults()
 	{
@@ -25,6 +40,7 @@
 	{
 		rootDiv = document.getElementById("results");
 		rootDiv.innerHTML = '';
+		rootDiv.appendChild(document.createElement("br"));
 		for(var result in results)
 		{
 			var prev = "";
@@ -35,17 +51,22 @@
 				next = results[(parseInt(result)+1).toString()];
 			if(prev+"/" == result[results] || next+"/" == result[results] || prev == results[result]+"/" || next == results[result]+"/")
 				continue;
- 
+
 			aTag = document.createElement("a");
 			aTag.setAttribute('href',results[result]);
+			aTag.setAttribute('target','_blank');
 			aTag.innerHTML = results[result];
 			rootDiv.appendChild(aTag);
+			rootDiv.appendChild(document.createElement("br"));
 			rootDiv.appendChild(document.createElement("br"));
 			
 		}
 	}
 	</script>
 	<body>
+		<div id="header"></div>
+		Search in cc.gatech.edu: 
+		<div id = "sidecolumn" width="100" height = "400"></div>
 		<input type = "text" id="textBox" size="34"/>
 		<input type = "button" value="Search" onclick = "SearchResults()"/>
 		<div id="results"></div>

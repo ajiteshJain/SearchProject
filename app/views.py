@@ -62,5 +62,5 @@ def search_main():
 	# results = ['www.cc.gatech.edu','www.sify.com','www.google.com']
 	for i in range(len(results)):
 		results[i] = unicode(results[i], errors='ignore')
-	return json.dumps(results)
+	return json.dumps(results[:20])
 
