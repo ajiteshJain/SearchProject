@@ -3,10 +3,14 @@ from searching import *
 from cosineSimilarity import *
 import re
 
+def GetExceptList():
+	return ['except', 'but', 'without', 'excluding', 'omitting']
+
+
 def exceptQueries(query):
 	db = MySQLdb.connect(host="127.0.0.1",user="root", db = "cs6422" )
 	cur = db.cursor()
-	exceptList = ['except', 'but', 'without', 'excluding', 'omitting']
+	exceptList = GetExceptList()
 	splitQuery = []
 	for elem in exceptList:
 		if elem in query:
