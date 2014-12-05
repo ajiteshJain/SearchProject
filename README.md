@@ -6,6 +6,7 @@ DB Impl Searching Project
 How to run the project:
 
 To run this project, you need to install the following:
+
 1. python 2.7 
   -you need to install flask and MySQLdb libraries in python
 2. MySQL
@@ -20,8 +21,11 @@ To run this project, you need to install the following:
 Directory structure:
 
 GephiData folder contains the csv data files that were created using the Mysql database to be used as input for Gephi for grpah visualizations.
+
 crawler folder contains the code used to crawl the cc.gatech.edu domain
+
 app folder contains all the code related to data processing, connecting to the DB, searching, and display of returns on a browser.
+
 run.py file runs the local server, so that the search engine can be used on a browser.
 
 --------------------------------------------------------------------------------------------------------------------------
