@@ -4,6 +4,7 @@
 DB Impl Searching Project
 
 Contributors: Srishti Gupta, Ajitesh Jain, Arjun Anand
+
 *How to run the project:*
 
 To run this project, you need to install the following:
