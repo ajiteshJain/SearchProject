@@ -10,7 +10,7 @@ To run this project, you need to install the following:
 1. python 2.7 
   -you need to install flask and MySQLdb libraries in python ( can use easy_install)
 2. MySQL(can use brew on Mac)
-3. Contact Srishti for the data set (.sql file)
+3. Contact Srishti for the data set (.sql file) or refer to the file submitted on T-Square.
 4. Run a Mysql server using : >>mysql.server start
 5. On your mysql command line, import the .sql file and change the database to this .sql file database(use USE command).
 6. You can now run the project by typing "python run.py" on the command line in the SearchProject folder.
