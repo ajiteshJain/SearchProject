@@ -1,9 +1,9 @@
-SearchProject
+**SearchProject**
 =============
 
 DB Impl Searching Project
 
-How to run the project:
+*How to run the project:*
 
 To run this project, you need to install the following:
 
@@ -18,7 +18,7 @@ To run this project, you need to install the following:
 
 --------------------------------------------------------------------------------------------------------------------------
 
-Directory structure:
+*Directory structure:*
 
 GephiData folder contains the csv data files that were created using the Mysql database to be used as input for Gephi for grpah visualizations.
 
