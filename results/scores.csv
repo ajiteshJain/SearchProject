@@ -1,0 +1,4 @@
+"type","precision","recall","f-measure"
+"entity",0.375,0.158,0.2223
+"tf-idf",0.25,0.1773,0.205
+"page-rank",0.2,0.1418,0.163	
